@@ -2,6 +2,8 @@ import math
 import random
 from collections import defaultdict
 
+import os
+
 
 cornell_movie_delimiter = '+++$+++' 
 
@@ -15,6 +17,7 @@ conversations_txt_file = 'movie_conversations.txt'
 
 movie_lines_txt_file = 'movie_lines.txt'
 
+all_txt_files = [title_metadata_txt_file, characters_metadata_txt_file, conversations_txt_file, movie_lines_txt_file]
 
 
 def read_txt_file(file_name):
@@ -35,5 +38,31 @@ def read_txt_file(file_name):
 			useful_information_list.append(split_line)
 
 	return useful_information_list
+
+
+def read_text_file_diff_directory(path_name):
+
+	#useful_information_list
+	filehandle = open(path_name)
+	print(filehandle.read())
+	filehandle.close()
+
+def read_movie_text_files(directory_location, text_files):
+
+	text_file_dict = defaultdict(list)
+	fileDir = os.path.dirname(os.path.realpath('__file__'))
+
+	for text_file in text_files:
+
+		path = os.path.join(fileDir, directory_location + text_file)
+		path = os.path.abspath(os.path.realpath(path))
+		print(path)
+		text_file_dict[text_file] = read_text_file_diff_directory(path)
+
+	return text_file_dict
+
+read_movie_text_files(directory_location, all_txt_files)
+
+
 
 
