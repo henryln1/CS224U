@@ -94,6 +94,7 @@ def dict_form_title_metadata(info_list):
 
 	'''
 	all_movies_metadata_dict = {}
+	movie_index_to_movie_title_dict = {}
 	for entry in info_list:
 		curr_movie_dict = {
 			'year' : entry[2],
@@ -103,11 +104,70 @@ def dict_form_title_metadata(info_list):
 		}
 		all_movies_metadata_dict[(entry[0], entry[1])] = curr_movie_dict
 
-	return all_movies_metadata_dict
+		movie_index_to_movie_title_dict[entry[0]] = entry[1]
 
+	return all_movies_metadata_dict, movie_index_to_movie_title_dict
+
+
+def dict_form_characters_metadata(info_list):
+	'''
+	info list is like above.
+	first returned dictionary is dict[(name, movie index)][gender/credits_ranking]
+
+	second returned dictionary is dict[male/female] = list of male/female characters along with movie index and title
+	'''
+	all_characters_metadata_dict = {}
+	genders_dict = {
+		'female': [],
+		'male': [],
+		'unknown': []
+	}
+
+	for entry in info_list:
+
+		curr_char_dict = {
+			'gender' = entry[4],
+			'ranking' = entry[5]
+		}
+		name = entry[1]
+		movie_index = entry[2]
+		#movie_title = entry[3]
+
+		all_movies_metadata_dict[(name, movie_index)] = curr_char_dict
+
+		if entry[4] == 'f':
+			genders_dict['female'].append((name, movie_index))
+		elif entry[4] == 'm':
+			genders_dict['male'].append((name, movie_index))
+		else:
+			genders_dict['unknown'].append((name, movie_index))
+
+	return all_characters_metadata_dict, genders_dict
+
+def dict_form_movie_lines(info_list):
+	'''
+	info list is like above
+	returns a dictionary with (name, movie_index) to a list of lines spoken
+
+	'''
+
+	char_to_lines_dict = defaultdict(list)
+
+	for entry in info_list:
+		name = entry[3]
+		movie_index = entry[2]
+		line = entry[-1]
+		key = (name, movie_index)
+		char_to_lines_dict[key].append(line)
+
+	return char_to_lines_dict
 
 def convert_lists_to_dictionaries(text_file_dict):
-	movie_metadata_dict = dict_form_title_metadata(text_file_dict[title_metadata_txt_file])
+	movie_metadata_dict, index_to_title_dict = dict_form_title_metadata(text_file_dict[title_metadata_txt_file])
+
+	characters_metadata_dict, genders_dict = dict_form_characters_metadata(text_file_dict[characters_metadata_txt_file])
+
+	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
 
 
 
