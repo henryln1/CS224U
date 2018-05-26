@@ -55,7 +55,7 @@ def read_txt_file(file_name):
 # 	print(filehandle.read())
 # 	filehandle.close()
 
-def read_movie_text_files(text_files):
+def read_movie_text_files(text_files = all_txt_files):
 
 	text_file_dict = defaultdict(list)
 	#fileDir = os.path.dirname(os.path.realpath('__file__'))
@@ -169,5 +169,5 @@ def convert_lists_to_dictionaries(text_file_dict):
 
 	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
 
-
+	return movie_metadata_dict, index_to_title_dict, characters_metadata_dict, genders_dict, movie_lines_dict
 
