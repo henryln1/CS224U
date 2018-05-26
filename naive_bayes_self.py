@@ -99,3 +99,4 @@ class NaiveBayes:
 		for w in sorted(d, key=d.get, reverse=False):
   			print(w, d[w])
 
+  			
