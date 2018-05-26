@@ -126,14 +126,14 @@ def dict_form_characters_metadata(info_list):
 	for entry in info_list:
 
 		curr_char_dict = {
-			'gender' = entry[4],
-			'ranking' = entry[5]
+			'gender' : entry[4],
+			'ranking' : entry[5]
 		}
 		name = entry[1]
 		movie_index = entry[2]
 		#movie_title = entry[3]
 
-		all_movies_metadata_dict[(name, movie_index)] = curr_char_dict
+		all_characters_metadata_dict[(name, movie_index)] = curr_char_dict
 
 		if entry[4] == 'f':
 			genders_dict['female'].append((name, movie_index))

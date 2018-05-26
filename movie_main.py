@@ -8,9 +8,11 @@ import itertools
 
 from data_processing import *
 
+import PorterStemmer
 
 
 
+porter_stemmer = PorterStemmer.PorterStemmer()
 
 def load_movie_corpus():
 
@@ -30,8 +32,19 @@ def load_movie_corpus():
 
 
 def train_test_split(lines):
-	train = {key: value for i, (key, value) in enumerate(lines.viewitems()) if i % 10 != 0}
-	test = {key: value for i, (key, value) in enumerate(lines.viewitems()) if i % 10 == 0}
+	#lines = dict(lines)
+	#train = {key: value for i, (key, value) in enumerate(lines.viewitems()) if i % 10 != 0}
+	#test = {key: value for i, (key, value) in enumerate(lines.viewitems()) if i % 10 == 0}
+	train = {}
+	test = {}
+	keys = list(lines.keys())
+
+	for index in range(len(keys)):
+		curr_key = keys[index]
+		if index % 10 != 0:
+			train[curr_key] = lines[curr_key]
+		else:
+			test[curr_key] = lines[curr_key]
 
 	return train, test
 
@@ -47,7 +60,7 @@ def segmentWords(s):
 
 def stop_read_file(file_name):
 	contents = []
-	f = open(fileName)
+	f = open(file_name)
 	for line in f:
 	  contents.append(line)
 	f.close()
@@ -56,46 +69,68 @@ def stop_read_file(file_name):
 
 def cleanup(line):
 	#remove nonalphanumeric characters and lowers the string
-
+	#print(line)
 	line = re.sub(r'([^\s\w]|_)+', '', line)
 
 	line = line.lower()
 
-	return line.split()
+	line_list = line.split()
 
+	for x in range(len(line_list)):
+		#curr = line_list[x]
+		#if curr[-1] == 'u' and curr[0] == 'u':
+		line_list[x] = porter_stemmer.stem(line_list[x])
+
+	return line_list
 
 def train_model(model, all_information_movie_dict, train_dict):
 
 	for key in train_dict:
 		character_name, movie_index = key
-		line = train_dict[key]
-		line_list_form = cleanup(line)
+		character_all_lines = train_dict[key]
+		#print(key)
+
+		#line_list_form = cleanup(line)
 
 		gender = all_information_movie_dict['character_metadata'][key]['gender']
-
-		model.add_line_example(gender, line_list_form)
+		#print(gender)
+		for curr_line in character_all_lines:
+			line_list_form = cleanup(curr_line)
+			model.add_line_example(gender, line_list_form)
 
 	return model
 
-def check_accuracy(model, test_dict):
+def check_accuracy(model, test_dict, all_information_movie_dict):
 
 	num_correct = 0
-	num_total = 
+	num_total = 0  
 	for key in test_dict:
-		line = test_dict[key]
-		line_list_form = cleanup(line)
+		character_all_lines = test_dict[key]
+		#line_list_form = cleanup(line)
 		gender = all_information_movie_dict['character_metadata'][key]['gender']
+		#print(gender)
 
-		model_output_gender = model.classify(line_list_form)
-
-		if model_output_gender == gender:
-			num_correct += 1
-		num_total += 1
+		if gender == 'f':
+			gender = 'female'
+		elif gender == 'm':
+			gender = 'male'
+		else:
+			continue
+		#print("Gender: ", gender)
+		for curr_line in character_all_lines:
+			line_list_form = cleanup(curr_line)
+			model_output_gender = model.classify(line_list_form)
+			#print("output gender: ", model_output_gender)
+			if model_output_gender == gender:
+				num_correct += 1
+			num_total += 1
 	print("Your model achieved accuracy: ", num_correct / num_total)
 	return
 
 
 def main():
+
+
 	all_information_movie_dict = load_movie_corpus()
 
 	lines_dict = all_information_movie_dict['movie_lines']
@@ -105,7 +140,10 @@ def main():
 	model = NaiveBayes(train_dict, test_dict, stop_words)
 
 	model = train_model(model, all_information_movie_dict, train_dict)
-	check_accuracy(model, test_dict)
+	check_accuracy(model, test_dict, all_information_movie_dict)
+	#model.print_word_counts_sorted()
+	#model.print_word_counts()
+	#model.print_all_words()
 
 if __name__ == "__main__":
 	main()

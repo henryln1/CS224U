@@ -22,7 +22,7 @@ class NaiveBayes:
 	def filter_stop_words(self, words):
 		filtered = []
 		for word in words:
-	  		if not word in self.stopList and word.strip() != '':
+			if not word in self.stop_words and word.strip() != '':
 				filtered.append(word)
 		return filtered
 		#pass
@@ -38,6 +38,9 @@ class NaiveBayes:
 
 		all_lines_count = sum(self.class_counts.values())
 
+		#print(self.class_counts['female'])
+		#print(math.log(self.class_counts['female']))
+		#print(math.log(all_lines_count))
 		female_prob += math.log(self.class_counts['female']) - math.log(all_lines_count)
 
 		male_prob += math.log(self.class_counts['male']) - math.log(all_lines_count)
@@ -48,13 +51,15 @@ class NaiveBayes:
 		temp_male = math.log(self.total_count['male']) + len(self.all_words)
 
 		for word in words:
-			female_prob += math.log(self.wordCounts['female'][word] + 1)
+			female_prob += math.log(self.word_counts['female'][word] + 5)
 			female_prob -= temp_female
 
-			male_prob += math.log(self.wordCounts['male'][word] + 1)
-			male_prob -= temp_male			
+			male_prob += math.log(self.word_counts['male'][word] + 5)
+			male_prob -= temp_male          
 
-
+		#print(words)
+		#print("female prob: ", female_prob)
+		#print("male prob: ", male_prob)
 		if female_prob >= male_prob:
 			return 'female'
 
@@ -66,14 +71,31 @@ class NaiveBayes:
 		klass is the male or female classification
 		words is a list of strings
 		'''
+		if klass == 'f':
+			klass = 'female'
+		elif klass == 'm':
+			klass = 'male'
+		else:
+			return
 		self.class_counts[klass] += 1
 
 		self.total_count[klass] += len(words)
 		for word in words:
-			self.wordCounts[klass][word] += 1
+			self.word_counts[klass][word] += 1
 
 			self.all_words.add(word)
 
 		return
 
+	def print_word_counts(self):
+		print(self.word_counts)
+
+	def print_all_words(self):
+		print(self.all_words)
+		print(len(list(self.all_words)))
+
+	def print_word_counts_sorted(self):
+		d = self.word_counts['female']
+		for w in sorted(d, key=d.get, reverse=False):
+  			print(w, d[w])
 
