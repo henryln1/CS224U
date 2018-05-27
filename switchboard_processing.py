@@ -36,6 +36,8 @@ def process_dialog(dialog):
     dialog = re.sub('<[Ll]aughter>', 'haha', dialog) # need to standardize movie dialog laughter too I think
     dialog = re.sub('<+[A-Za-z _]+>+', '', dialog)
     dialog = re.sub('[}\[\]\+/\(\)#]', '', dialog)
+    dialog = re.sub('  +', ' ', dialog)
+    dialog = dialog.strip()
     return dialog
                 
 
@@ -61,7 +63,21 @@ def get_conversations(convo_data):
                     dialog = process_dialog(dialog)
                     lines.append((identifier, dialog))
             conversations[conversation_num] = lines
+    return conversations
 
-caller_data = get_caller_data()
-convo_data = get_conversation_data()
-convos = get_conversations(convo_data)
+# returns list of all lines and all associated genders
+def get_labeled_lines(convos, people):
+    lines = []
+    genders = []
+    for number, convo in convos.items():
+        for person, line in convo:
+            lines.append(line.lower())
+            genders.append(people[person][0].lower())
+    return lines, genders
+
+def get_switchboard_data():
+    caller_data = get_caller_data()
+    convo_data = get_conversation_data()
+    convos = get_conversations(convo_data)
+    labeled = get_labeled_lines(convos, caller_data)
+    return labeled

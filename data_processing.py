@@ -162,6 +162,27 @@ def dict_form_movie_lines(info_list):
 
 	return char_to_lines_dict
 
+# returns list of all lines and all associated genders
+def get_labeled_lines(movie_lines_dict, characters_metadata_dict):
+	all_lines = []
+	labels = []
+	for key, lines in movie_lines_dict.items():
+		gender = characters_metadata_dict[key]['gender']
+		if gender != 'f' and gender != 'm':
+			continue
+		for line in lines:
+			all_lines.append(line.lower())
+			labels.append(gender)
+
+	return all_lines, labels
+
+def get_movie_data():
+	text_file_dict = read_movie_text_files()
+	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
+	characters_metadata_dict, genders_dict = dict_form_characters_metadata(text_file_dict[characters_metadata_txt_file])
+	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
+	return get_labeled_lines(movie_lines_dict, characters_metadata_dict)
+
 def convert_lists_to_dictionaries(text_file_dict):
 	movie_metadata_dict, index_to_title_dict = dict_form_title_metadata(text_file_dict[title_metadata_txt_file])
 
