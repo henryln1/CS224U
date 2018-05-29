@@ -2,6 +2,7 @@
 import os
 import csv
 import re
+import random
 
 switchboard_directory = 'switchboard-corpus/'
 
@@ -75,9 +76,30 @@ def get_labeled_lines(convos, people):
             genders.append(people[person][0].lower())
     return lines, genders
 
+# same as above, but returns equal num of male and female lines
+# there are 92887 male lines and 130729 female lines, so we take 90000 of each
+# this does not take into account conversation topics
+def get_labeled_lines_equal(convos, people):
+    size = 90000
+    male_lines = []
+    female_lines = []
+    for number, convo in convos.items():
+        for person, line in convo:
+            if people[person][0].lower() == 'f':
+                female_lines.append(line.lower())
+            else:
+                male_lines.append(line.lower())
+    female_equal = random.sample(female_lines, size)
+    male_equal = random.sample(male_lines, size)
+    lines = female_equal + male_equal
+    genders = ['f' if x < size else 'm' for x in range(size * 2)]
+    return lines, genders
+
+
+
 def get_switchboard_data():
     caller_data = get_caller_data()
     convo_data = get_conversation_data()
     convos = get_conversations(convo_data)
-    labeled = get_labeled_lines(convos, caller_data)
+    labeled = get_labeled_lines_equal(convos, caller_data)
     return labeled

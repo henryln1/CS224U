@@ -176,12 +176,33 @@ def get_labeled_lines(movie_lines_dict, characters_metadata_dict):
 
 	return all_lines, labels
 
+# same as above, but returns equal num of male and female lines
+# there are 66228 female lines & 154133 male lines so we take 65000 of each
+# this does not take into account different genres or movies
+def get_labeled_lines_equal(movie_lines_dict, characters_metadata_dict):
+	size = 65000
+	male_lines = []
+	female_lines = []
+	for key, lines in movie_lines_dict.items():
+		gender = characters_metadata_dict[key]['gender']
+		for line in lines:
+			if gender == 'f':
+				female_lines.append(line)
+			elif gender == 'm':
+				male_lines.append(line)
+	female_equal = random.sample(female_lines, size)
+	male_equal = random.sample(male_lines, size)
+	lines = female_equal + male_equal
+	genders = ['f' if x < size else 'm' for x in range(size * 2)]
+	return lines, genders
+	
+
 def get_movie_data():
 	text_file_dict = read_movie_text_files()
 	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
 	characters_metadata_dict, genders_dict = dict_form_characters_metadata(text_file_dict[characters_metadata_txt_file])
 	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
-	return get_labeled_lines(movie_lines_dict, characters_metadata_dict)
+	return get_labeled_lines_equal(movie_lines_dict, characters_metadata_dict)
 
 def convert_lists_to_dictionaries(text_file_dict):
 	movie_metadata_dict, index_to_title_dict = dict_form_title_metadata(text_file_dict[title_metadata_txt_file])
