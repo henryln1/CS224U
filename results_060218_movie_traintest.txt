@@ -1,0 +1,137 @@
+Results of training and testing on movie dataset solely. Modified code so that for each movie, we get an equal number of female/male lines so it isn't biased
+
+
+Naive Bayes
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.65      0.57      0.61     15618
+          m       0.52      0.59      0.55     12094
+
+avg / total       0.59      0.58      0.58     27712
+
+Count (bigrams): 
+             precision    recall  f1-score   support
+
+          f       0.57      0.54      0.55     14680
+          m       0.51      0.54      0.53     13032
+
+avg / total       0.54      0.54      0.54     27712
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.65      0.57      0.61     15720
+          m       0.51      0.59      0.55     11992
+
+avg / total       0.59      0.58      0.58     27712
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.57      0.54      0.55     14551
+          m       0.52      0.54      0.53     13161
+
+avg / total       0.54      0.54      0.54     27712
+
+=======================================
+Logistic Regression
+Count:
+             precision    recall  f1-score   support
+
+          f       0.62      0.57      0.60     15051
+          m       0.53      0.58      0.56     12661
+
+avg / total       0.58      0.58      0.58     27712
+
+Count (bigrams):
+             precision    recall  f1-score   support
+
+          f       0.62      0.54      0.58     16053
+          m       0.46      0.55      0.50     11659
+
+avg / total       0.55      0.54      0.54     27712
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.59      0.58      0.58     14129
+          m       0.57      0.58      0.57     13583
+
+avg / total       0.58      0.58      0.58     27712
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.47      0.55      0.51     11829
+          m       0.62      0.54      0.57     15883
+
+avg / total       0.55      0.54      0.55     27712
+
+=======================================
+SGD
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.66      0.56      0.61     16215
+          m       0.49      0.59      0.53     11497
+
+avg / total       0.59      0.57      0.58     27712
+
+Count (bigrams) :
+             precision    recall  f1-score   support
+
+          f       0.63      0.54      0.58     16431
+          m       0.45      0.55      0.49     11281
+
+avg / total       0.56      0.54      0.55     27712
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.54      0.58      0.56     13040
+          m       0.60      0.57      0.59     14672
+
+avg / total       0.58      0.57      0.57     27712
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.11      0.59      0.19      2668
+          m       0.92      0.51      0.65     25044
+
+avg / total       0.84      0.52      0.61     27712
+
+=======================================
+SGD - log loss
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.60      0.57      0.59     14649
+          m       0.55      0.58      0.56     13063
+
+avg / total       0.58      0.58      0.58     27712
+
+Count (bigrams) :
+             precision    recall  f1-score   support
+
+          f       0.49      0.55      0.52     12528
+          m       0.59      0.54      0.56     15184
+
+avg / total       0.55      0.54      0.54     27712
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.57      0.58      0.57     13601
+          m       0.59      0.57      0.58     14111
+
+avg / total       0.58      0.58      0.58     27712
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.42      0.56      0.48     10455
+          m       0.66      0.53      0.59     17257
+
+avg / total       0.57      0.54      0.55     27712

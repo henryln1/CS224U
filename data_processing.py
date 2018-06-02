@@ -196,13 +196,63 @@ def get_labeled_lines_equal(movie_lines_dict, characters_metadata_dict):
 	genders = ['f' if x < size else 'm' for x in range(size * 2)]
 	return lines, genders
 	
+#similar to the above function except now we want an equal number of male/female 
+#lines from each movie instead of just overall.
+
+def get_labeled_lines_equal_per_movie(movie_lines_dict, characters_metadata_dict):
+	male_lines = []
+	female_lines = []
+	movie_line_count = {}
+	for key in movie_lines_dict:
+		name, movie_index = key
+		if movie_index not in movie_line_count:
+			movie_line_count[movie_index] = {}
+			movie_line_count[movie_index]['counts'] =[0, 0]
+			movie_line_count[movie_index]['female_lines'] = []
+			movie_line_count[movie_index]['male_lines'] = []
+	# movie_line_count = {
+	# 	'counts': [0, 0],
+	# 	'female_lines': [],
+	# 	'male_lines': []
+	# } 
+	for key, lines in movie_lines_dict.items():
+		name, movie_index = key
+		gender = characters_metadata_dict[key]['gender']
+		for line in lines:
+			if gender == 'f':
+				movie_line_count[movie_index]['counts'][1] += 1
+				movie_line_count[movie_index]['female_lines'].append(line)
+			elif gender == 'm':
+				movie_line_count[movie_index]['counts'][0] += 1
+				movie_line_count[movie_index]['male_lines'].append(line)
+
+	for movie in movie_line_count:
+		lower_line_gender_count = min(movie_line_count[movie]['counts'])
+		female_equal_lines = random.sample(movie_line_count[movie]['female_lines'], lower_line_gender_count)
+		male_equal_lines = random.sample(movie_line_count[movie]['male_lines'], lower_line_gender_count)
+		male_lines += male_equal_lines
+		female_lines += female_equal_lines
+
+	lines = female_lines + male_lines
+	genders = ['f' for x in range(len(female_lines))]
+	genders += ['m' for x in range(len(male_lines))]
+	return lines, genders
+
+
+
+
 
 def get_movie_data():
 	text_file_dict = read_movie_text_files()
 	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
 	characters_metadata_dict, genders_dict = dict_form_characters_metadata(text_file_dict[characters_metadata_txt_file])
 	movie_lines_dict = dict_form_movie_lines(text_file_dict[movie_lines_txt_file])
-	return get_labeled_lines_equal(movie_lines_dict, characters_metadata_dict)
+
+	#getting an equal number of female/male lines from each movie
+	return get_labeled_lines_equal_per_movie(movie_lines_dict, characters_metadata_dict)
+
+	#the below line was run for the milestone results
+	#return get_labeled_lines_equal(movie_lines_dict, characters_metadata_dict)
 
 def convert_lists_to_dictionaries(text_file_dict):
 	movie_metadata_dict, index_to_title_dict = dict_form_title_metadata(text_file_dict[title_metadata_txt_file])

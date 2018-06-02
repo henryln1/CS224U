@@ -10,9 +10,9 @@ import data_processing
 # lines, labels = switchboard_processing.get_switchboard_data()
 # train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
-# Splitting movies
-# lines, labels = data_processing.get_movie_data()
-# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+#Splitting movies
+lines, labels = data_processing.get_movie_data()
+train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # Training on switchboard, testing on movies
 # train_x, train_y = switchboard_processing.get_switchboard_data()
@@ -22,9 +22,9 @@ import data_processing
 # lines = train_x + test_x
 
 # Training on movies, testing on switchboard
-train_x, train_y = data_processing.get_movie_data()
-test_x, test_y = switchboard_processing.get_switchboard_data()
-lines = train_x + test_x
+# train_x, train_y = data_processing.get_movie_data()
+# test_x, test_y = switchboard_processing.get_switchboard_data()
+# lines = train_x + test_x
 
 # FEATURES
 

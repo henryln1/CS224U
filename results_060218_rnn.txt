@@ -1,0 +1,6 @@
+Iteration 100: loss: 55.59902173280716             precision    recall  f1-score   support
+
+          f       0.52      0.58      0.55     13787
+          m       0.53      0.47      0.50     13925
+
+avg / total       0.53      0.52      0.52     27712
