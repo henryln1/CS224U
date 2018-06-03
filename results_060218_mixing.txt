@@ -1,0 +1,139 @@
+Results of mixing all three datasets together!
+
+Mixing datasets time.
+Number of male tweets collected:  4653
+Number of female tweets collected:  5367
+Naive Bayes
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.58      0.54      0.56      1874
+          m       0.51      0.54      0.52      1615
+
+avg / total       0.55      0.54      0.54      3489
+
+Count (bigrams): 
+             precision    recall  f1-score   support
+
+          f       0.60      0.54      0.57      1939
+          m       0.48      0.54      0.51      1550
+
+avg / total       0.55      0.54      0.54      3489
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.60      0.54      0.57      1953
+          m       0.48      0.54      0.51      1536
+
+avg / total       0.55      0.54      0.54      3489
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.53      0.54      0.53      1701
+          m       0.55      0.53      0.54      1788
+
+avg / total       0.54      0.54      0.54      3489
+
+=======================================
+Logistic Regression
+Count:
+             precision    recall  f1-score   support
+
+          f       0.55      0.53      0.54      1831
+          m       0.50      0.53      0.52      1658
+
+avg / total       0.53      0.53      0.53      3489
+
+Count (bigrams):
+             precision    recall  f1-score   support
+
+          f       0.63      0.54      0.58      2078
+          m       0.44      0.55      0.49      1411
+
+avg / total       0.56      0.54      0.54      3489
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.51      0.54      0.53      1646
+          m       0.57      0.53      0.55      1843
+
+avg / total       0.54      0.54      0.54      3489
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.41      0.56      0.48      1292
+          m       0.67      0.53      0.59      2197
+
+avg / total       0.58      0.54      0.55      3489
+
+=======================================
+SGD
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.59      0.53      0.56      1945
+          m       0.48      0.53      0.50      1544
+
+avg / total       0.54      0.53      0.53      3489
+
+Count (bigrams) :
+             precision    recall  f1-score   support
+
+          f       0.65      0.52      0.58      2168
+          m       0.40      0.53      0.46      1321
+
+avg / total       0.56      0.53      0.53      3489
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.52      0.54      0.53      1705
+          m       0.55      0.53      0.54      1784
+
+avg / total       0.54      0.54      0.54      3489
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.41      0.56      0.48      1295
+          m       0.67      0.53      0.59      2194
+
+avg / total       0.58      0.54      0.55      3489
+
+=======================================
+SGD - log loss
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.56      0.53      0.54      1840
+          m       0.50      0.53      0.51      1649
+
+avg / total       0.53      0.53      0.53      3489
+
+Count (bigrams) :
+             precision    recall  f1-score   support
+
+          f       0.63      0.54      0.58      2078
+          m       0.44      0.55      0.49      1411
+
+avg / total       0.56      0.54      0.54      3489
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.51      0.54      0.53      1645
+          m       0.57      0.53      0.55      1844
+
+avg / total       0.54      0.54      0.54      3489
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.41      0.56      0.48      1289
+          m       0.67      0.53      0.59      2200
+
+avg / total       0.58      0.54      0.55      3489

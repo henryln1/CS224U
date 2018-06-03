@@ -21,8 +21,8 @@ better_rnn = TfRNNClassifier(
     hidden_activation=tf.nn.tanh,
     cell_class=tf.nn.rnn_cell.LSTMCell,
     train_embedding=True,
-    max_iter=100,
-    eta=0.1) 
+    max_iter=1000,
+    eta=0.2) 
 
 _ = better_rnn.fit(train_x, train_y)
 better_rnn_dev_predictions = better_rnn.predict(test_x)

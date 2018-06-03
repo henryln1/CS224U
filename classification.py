@@ -3,6 +3,8 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import pandas
 import switchboard_processing
 import data_processing
+import twitter_processing
+import mix_datasets_processing
 
 # DATA
 
@@ -11,8 +13,8 @@ import data_processing
 # train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 #Splitting movies
-lines, labels = data_processing.get_movie_data()
-train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+# lines, labels = data_processing.get_movie_data()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # Training on switchboard, testing on movies
 # train_x, train_y = switchboard_processing.get_switchboard_data()
@@ -25,6 +27,15 @@ train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, label
 # train_x, train_y = data_processing.get_movie_data()
 # test_x, test_y = switchboard_processing.get_switchboard_data()
 # lines = train_x + test_x
+
+#Splitting tweets
+# lines, labels = twitter_processing.get_tweets_data()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+
+#mixing datasets!
+print("Mixing datasets time.")
+lines, labels = mix_datasets_processing.collect_all_datasets()
+train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # FEATURES
 
