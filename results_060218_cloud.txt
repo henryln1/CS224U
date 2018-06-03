@@ -1,0 +1,8 @@
+Regular RNN model
+
+Iteration 5000: loss: 30.26225471496582             precision    recall  f1-score   support
+
+          f       0.51      0.53      0.52     13879
+          m       0.51      0.49      0.50     13833
+
+avg / total       0.51      0.51      0.51     27712
