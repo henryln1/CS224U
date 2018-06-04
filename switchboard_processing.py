@@ -66,6 +66,37 @@ def get_conversations(convo_data):
             conversations[conversation_num] = lines
     return conversations
 
+# returns dict {topic # -> list of lines}
+# list of lines contains (person #, line) for each l ine
+def get_topics_conversations(convo_data):
+    conversations = {}
+    for folder in switchboard_folders:
+        directory = switchboard_directory + 'sw' + folder + 'utt/'
+        for filename in os.listdir(directory):
+            if filename == 'words':
+                continue
+            conversation_num = filename[-8:-4] # theres also a line in each file that's "FILENAME: (convo num)_(person a num)_(person b num)" not sure if I should just use that instead
+            personA, personB = convo_data[conversation_num]
+            lines = []
+            topic_num = -1
+            with open(directory + filename) as f:
+                for line in f:
+                    topic_match = re.search('TOPIC#:\s*(\d+)', line)
+                    if topic_match != None:
+                        topic_num = topic_match.group(1)
+                    match = re.search('([AB])\.\d+ utt\d+:(.+)', line)
+                    if match == None:
+                        continue
+                    identifier = personA if match.group(1) == 'A' else personB
+                    dialog = match.group(2).strip()
+                    dialog = process_dialog(dialog)
+                    lines.append((identifier, dialog))
+            if topic_num not in conversations:
+                conversations[topic_num] = lines
+            else:
+                conversations[topic_num] += lines
+    return conversations
+
 # returns list of all lines and all associated genders
 def get_labeled_lines(convos, people):
     lines = []
@@ -95,11 +126,30 @@ def get_labeled_lines_equal(convos, people):
     genders = ['f' if x < size else 'm' for x in range(size * 2)]
     return lines, genders
 
+def get_labeled_lines_equal_topic(convos, people):
+    lines = []
+    genders = []
+    for topic, convo in convos.items():
+        male_lines = []
+        female_lines = []
+        for person, line in convo:
+            if people[person][0].lower() == 'f':
+                female_lines.append(line.lower())
+            else:
+                male_lines.append(line.lower())
+        num_lines = min([len(male_lines), len(female_lines)])
+        female_equal = random.sample(female_lines, num_lines)
+        male_equal = random.sample(male_lines, num_lines)
+        lines += female_equal + male_equal
+        genders += ['f' if x < num_lines else 'm' for x in range(num_lines * 2)]
+    return lines, genders
 
 
 def get_switchboard_data():
     caller_data = get_caller_data()
     convo_data = get_conversation_data()
-    convos = get_conversations(convo_data)
-    labeled = get_labeled_lines_equal(convos, caller_data)
+    # convos = get_conversations(convo_data)
+    # labeled = get_labeled_lines_equal(convos, caller_data)
+    convos = get_topics_conversations(convo_data)
+    labeled = get_labeled_lines_equal_topic(convos, caller_data)
     return labeled

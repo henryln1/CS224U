@@ -5,6 +5,7 @@ import switchboard_processing
 import data_processing
 import twitter_processing
 import mix_datasets_processing
+import blog_processing
 
 # DATA
 
@@ -32,10 +33,15 @@ import mix_datasets_processing
 # lines, labels = twitter_processing.get_tweets_data()
 # train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
-#mixing datasets!
-print("Mixing datasets time.")
-lines, labels = mix_datasets_processing.collect_all_datasets()
+# splitting blogs
+lines, labels = blog_processing.get_blog_data()
 train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+
+#mixing datasets!
+# print("Mixing datasets time.")
+# lines, labels = mix_datasets_processing.collect_all_datasets()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+
 
 # FEATURES
 
