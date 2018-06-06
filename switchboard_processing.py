@@ -133,6 +133,8 @@ def get_labeled_lines_equal_topic(convos, people):
         male_lines = []
         female_lines = []
         for person, line in convo:
+            if len(line.split()) < 10:
+                continue
             if people[person][0].lower() == 'f':
                 female_lines.append(line.lower())
             else:

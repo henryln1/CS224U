@@ -219,6 +219,8 @@ def get_labeled_lines_equal_per_movie(movie_lines_dict, characters_metadata_dict
 		name, movie_index = key
 		gender = characters_metadata_dict[key]['gender']
 		for line in lines:
+			if len(line.split()) < 10:
+				continue
 			if gender == 'f':
 				movie_line_count[movie_index]['counts'][1] += 1
 				movie_line_count[movie_index]['female_lines'].append(line)

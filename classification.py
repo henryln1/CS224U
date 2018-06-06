@@ -1,11 +1,30 @@
 from sklearn import model_selection, naive_bayes, metrics, linear_model
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.pipeline import FeatureUnion
 import pandas
 import switchboard_processing
 import data_processing
 import twitter_processing
 import mix_datasets_processing
 import blog_processing
+
+
+def segmentWords(s):
+    """
+     * Splits lines on whitespace for file reading
+    """
+    return s.split()
+
+# Stop words
+def stop_read_file(file_name):
+    contents = []
+    f = open(file_name)
+    for line in f:
+      contents.append(line)
+    f.close()
+    result = segmentWords('\n'.join(contents)) 
+    return result
+stop_words = stop_read_file('english.stop')
 
 # DATA
 
@@ -14,8 +33,8 @@ import blog_processing
 # train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 #Splitting movies
-# lines, labels = data_processing.get_movie_data()
-# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+lines, labels = data_processing.get_movie_data()
+train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # Training on switchboard, testing on movies
 # train_x, train_y = switchboard_processing.get_switchboard_data()
@@ -34,8 +53,8 @@ import blog_processing
 # train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # splitting blogs
-lines, labels = blog_processing.get_blog_data()
-train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+# lines, labels = blog_processing.get_blog_data()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 #mixing datasets!
 # print("Mixing datasets time.")
@@ -73,10 +92,25 @@ test_x_tfidif_ngram = tfidf_vec_ngram.transform(test_x)
 
 # possible future features - GloVe, neural nets
 
+all_features = FeatureUnion([("unigrams", count_vec), ("bigrams", count_vec_2), ("tfidif-unigrams", tfidf_vec_word), ("tfidf-ngrams", tfidf_vec_ngram)])
+all_features.fit(lines)
+train_x_combined = all_features.transform(train_x)
+test_x_combined = all_features.transform(test_x)
+
+only_counts = FeatureUnion([("unigrams", count_vec), ("bigrams", count_vec_2)])
+only_counts.fit(lines)
+train_x_counts = only_counts.transform(train_x)
+test_x_counts = only_counts.transform(test_x)
+
 # TRAINING AND TESTING
 def train_model(classifier, train_features, label, test_features):
     classifier.fit(train_features, label)
-    predictions = classifier.predict(test_features)    
+    predictions = classifier.predict(test_features)
+    # for i in range(len(predictions)):
+    #     if predictions[i] != test_y[i]:
+    #         print("Utterance: ", test_x[i])
+    #         print("Expected: ", test_y[i])
+    #         print("Predicted: ", predictions[i])
     return metrics.classification_report(predictions, test_y)
 
 print("Naive Bayes")
@@ -86,11 +120,17 @@ print(accuracy)
 accuracy = train_model(naive_bayes.MultinomialNB(), train_x_count_2, train_y, test_x_count_2)
 print("Count (bigrams): ")
 print(accuracy)
+accuracy = train_model(naive_bayes.MultinomialNB(), train_x_counts, train_y, test_x_counts)
+print("All Counts: ")
+print(accuracy)
 accuracy = train_model(naive_bayes.MultinomialNB(), train_x_tfidif_word, train_y, test_x_tfidif_word)
 print("Word TF-IDF: ")
 print(accuracy)
 accuracy = train_model(naive_bayes.MultinomialNB(), train_x_tfidif_ngram, train_y, test_x_tfidif_ngram)
 print("N-Gram TF-IDF: ")
+print(accuracy)
+accuracy = train_model(naive_bayes.MultinomialNB(), train_x_combined, train_y, test_x_combined)
+print("All: ")
 print(accuracy)
 
 print("=======================================")
@@ -102,11 +142,17 @@ print(accuracy)
 accuracy = train_model(linear_model.LogisticRegression(), train_x_count_2, train_y, test_x_count_2)
 print("Count (bigrams):")
 print(accuracy)
+accuracy = train_model(linear_model.LogisticRegression(), train_x_counts, train_y, test_x_counts)
+print("All Counts: ")
+print(accuracy)
 accuracy = train_model(linear_model.LogisticRegression(), train_x_tfidif_word, train_y, test_x_tfidif_word)
 print("Word TF-IDF: ")
 print(accuracy)
 accuracy = train_model(linear_model.LogisticRegression(), train_x_tfidif_ngram, train_y, test_x_tfidif_ngram)
 print("N-Gram TF-IDF: ")
+print(accuracy)
+accuracy = train_model(linear_model.LogisticRegression(), train_x_combined, train_y, test_x_combined)
+print("All: ")
 print(accuracy)
 
 print("=======================================")
@@ -118,11 +164,17 @@ print(accuracy)
 accuracy = train_model(linear_model.SGDClassifier(max_iter = 1000), train_x_count_2, train_y, test_x_count_2)
 print("Count (bigrams) :")
 print(accuracy)
+accuracy = train_model(linear_model.SGDClassifier(max_iter = 1000), train_x_counts, train_y, test_x_counts)
+print("All Counts: ")
+print(accuracy)
 accuracy = train_model(linear_model.SGDClassifier(max_iter = 1000), train_x_tfidif_word, train_y, test_x_tfidif_word)
 print("Word TF-IDF: ")
 print(accuracy)
 accuracy = train_model(linear_model.SGDClassifier(max_iter = 1000), train_x_tfidif_ngram, train_y, test_x_tfidif_ngram)
 print("N-Gram TF-IDF: ")
+print(accuracy)
+accuracy = train_model(linear_model.SGDClassifier(max_iter = 1000), train_x_combined, train_y, test_x_combined)
+print("All: ")
 print(accuracy)
 
 print("=======================================")
@@ -134,9 +186,15 @@ print(accuracy)
 accuracy = train_model(linear_model.SGDClassifier(loss = 'log', max_iter = 1000), train_x_count_2, train_y, test_x_count_2)
 print("Count (bigrams) :")
 print(accuracy)
+accuracy = train_model(linear_model.SGDClassifier(loss = 'log', max_iter = 1000), train_x_counts, train_y, test_x_counts)
+print("All Counts: ")
+print(accuracy)
 accuracy = train_model(linear_model.SGDClassifier(loss = 'log', max_iter = 1000), train_x_tfidif_word, train_y, test_x_tfidif_word)
 print("Word TF-IDF: ")
 print(accuracy)
 accuracy = train_model(linear_model.SGDClassifier(loss = 'log', max_iter = 1000), train_x_tfidif_ngram, train_y, test_x_tfidif_ngram)
 print("N-Gram TF-IDF: ")
+print(accuracy)
+accuracy = train_model(linear_model.SGDClassifier(loss = 'log', max_iter = 1000), train_x_combined, train_y, test_x_combined)
+print("All: ")
 print(accuracy)
