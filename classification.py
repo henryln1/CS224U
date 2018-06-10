@@ -36,9 +36,9 @@ stop_words = stop_read_file('english.stop')
 # DATA
 
 # Splitting switchboard
-lines, labels = switchboard_processing.get_switchboard_data()
-train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
-print("switchboard")
+# lines, labels = switchboard_processing.get_switchboard_data()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+# print("switchboard")
 
 #Splitting movies
 # lines, labels = data_processing.get_movie_data()
@@ -57,8 +57,8 @@ print("switchboard")
 # lines = train_x + test_x
 
 #Splitting tweets
-# lines, labels = twitter_processing.get_tweets_data()
-# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+lines, labels = twitter_processing.get_tweets_data()
+train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # splitting blogs
 # lines, labels = blog_processing.get_blog_data()
@@ -131,8 +131,8 @@ def train_model(classifier, train_features, label, test_features, print_bool = F
 		feature_weights = classifier.feature_count_
 		features_1 = feature_weights[0]
 		features_2 = feature_weights[1]
-		top_features_1 = np.argpartition(features_1, -100)[-100:]
-		top_features_2 = np.argpartition(features_2, -100)[-100:]
+		top_features_1 = np.argpartition(features_1, -1000)[-1000:]
+		top_features_2 = np.argpartition(features_2, -1000)[-1000:]
 		top_sorted_1 = top_features_1[np.argsort(features_1[top_features_1])]
 		top_sorted_2 = top_features_2[np.argsort(features_2[top_features_2])]
 		feature_names_1_sorted = np.asarray(featurizer.get_feature_names())[top_sorted_1]
@@ -141,13 +141,14 @@ def train_model(classifier, train_features, label, test_features, print_bool = F
 		features_2_sorted = features_2[top_sorted_2]
 
 		features_dict = {}
-		for i in range(100):
+		for i in range(1000):
 			name = feature_names_1_sorted[i]
 			weight_1 = features_1_sorted[i]
 			index_2 = np.where(feature_names_2_sorted == name)
 			weight_2 = features_2_sorted[i]
 			difference = weight_1 - weight_2
-			features_dict[name] = difference
+			#features_dict[name] = difference
+			features_dict[name] = weight_1 / weight_2
 
 		sorted_feature_differences = sorted(features_dict.items(), key=operator.itemgetter(1))
 		print(sorted_feature_differences)
