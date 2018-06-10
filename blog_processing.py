@@ -25,6 +25,9 @@ def get_labeled_lines_equal(unprocessed):
     posts = []
     genders = []
     counter = 0
+    all_male = []
+    all_female = []
+    n = 10000
     for topic, data in unprocessed.items():
         male_posts = data['m']
         female_posts = data['f']
@@ -33,14 +36,12 @@ def get_labeled_lines_equal(unprocessed):
         num_convos = min([num_male, num_fem])
         male_equal = random.sample(male_posts, num_convos)
         female_equal = random.sample(female_posts, num_convos)
-        posts += male_equal
-        genders += ['m' for i in range(num_convos)]
-        posts += female_equal
-        genders += ['f' for i in range(num_convos)]
+        all_male += male_equal
+        all_female += female_equal
         counter += num_convos * 2
-    print(counter)
-    print("Number of male posts: ", len(male_posts))
-    print("Number of female posts: ", len(female_posts))
+    posts += random.sample(all_male, n)
+    posts += random.sample(all_female, n)
+    genders += ['m' if i < n else 'f' for i in range(2 * n)]
     return posts, genders
 
 def get_blog_data():

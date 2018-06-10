@@ -57,12 +57,12 @@ stop_words = stop_read_file('english.stop')
 # lines = train_x + test_x
 
 #Splitting tweets
-lines, labels = twitter_processing.get_tweets_data()
-train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+# lines, labels = twitter_processing.get_tweets_data()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # splitting blogs
-# lines, labels = blog_processing.get_blog_data()
-# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+lines, labels = blog_processing.get_blog_data()
+train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 #mixing datasets!
 # print("Mixing datasets time.")
