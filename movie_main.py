@@ -76,10 +76,10 @@ def cleanup(line):
 
 	line_list = line.split()
 
-	for x in range(len(line_list)):
-		#curr = line_list[x]
-		#if curr[-1] == 'u' and curr[0] == 'u':
-		line_list[x] = porter_stemmer.stem(line_list[x])
+	# for x in range(len(line_list)):
+	# 	#curr = line_list[x]
+	# 	#if curr[-1] == 'u' and curr[0] == 'u':
+	# 	line_list[x] = porter_stemmer.stem(line_list[x])
 
 	return line_list
 
@@ -141,7 +141,7 @@ def main():
 
 	model = train_model(model, all_information_movie_dict, train_dict)
 	check_accuracy(model, test_dict, all_information_movie_dict)
-	#model.print_word_counts_sorted()
+	model.print_word_counts_sorted()
 	#model.print_word_counts()
 	#model.print_all_words()
 

@@ -16,6 +16,7 @@ def get_post_data():
         post = row[6].strip()
         posts[topic][gender].append(post)
         counter += 1 
+    print('Number of blog posts: ', counter)
     print(counter)
     return posts
 
@@ -38,10 +39,12 @@ def get_labeled_lines_equal(unprocessed):
         genders += ['f' for i in range(num_convos)]
         counter += num_convos * 2
     print(counter)
+    print("Number of male posts: ", len(male_posts))
+    print("Number of female posts: ", len(female_posts))
     return posts, genders
 
 def get_blog_data():
     posts_unprocessed = get_post_data()
     return get_labeled_lines_equal(posts_unprocessed)
 
-get_labeled_lines_equal(get_post_data())
+#get_labeled_lines_equal(get_post_data())

@@ -7,6 +7,10 @@ import data_processing
 import twitter_processing
 import mix_datasets_processing
 import blog_processing
+import numpy as np 
+np.set_printoptions(threshold=np.nan)
+
+out_file_name = 'features_count_naive_bayes_switchboard_1.txt'
 
 
 def segmentWords(s):
@@ -29,12 +33,13 @@ stop_words = stop_read_file('english.stop')
 # DATA
 
 # Splitting switchboard
-# lines, labels = switchboard_processing.get_switchboard_data()
-# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+lines, labels = switchboard_processing.get_switchboard_data()
+train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+print("switchboard")
 
 #Splitting movies
-lines, labels = data_processing.get_movie_data()
-train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+# lines, labels = data_processing.get_movie_data()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
 # Training on switchboard, testing on movies
 # train_x, train_y = switchboard_processing.get_switchboard_data()
@@ -60,6 +65,11 @@ train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, label
 # print("Mixing datasets time.")
 # lines, labels = mix_datasets_processing.collect_all_datasets()
 # train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+
+#train on blogs, test on movies
+# train_x, train_y = blog_processing.get_blog_data()
+# test_x, test_y = data_processing.get_movie_data()
+# lines = train_x + test_x
 
 
 # FEATURES
@@ -103,7 +113,7 @@ train_x_counts = only_counts.transform(train_x)
 test_x_counts = only_counts.transform(test_x)
 
 # TRAINING AND TESTING
-def train_model(classifier, train_features, label, test_features):
+def train_model(classifier, train_features, label, test_features, print_bool = False):
     classifier.fit(train_features, label)
     predictions = classifier.predict(test_features)
     # for i in range(len(predictions)):
@@ -111,12 +121,19 @@ def train_model(classifier, train_features, label, test_features):
     #         print("Utterance: ", test_x[i])
     #         print("Expected: ", test_y[i])
     #         print("Predicted: ", predictions[i])
+    if print_bool:
+    	print(classifier)
+    	#print(classifier.coef_)
+    	np.savetxt(out_file_name, classifier.feature_count_)
     return metrics.classification_report(predictions, test_y)
 
 print("Naive Bayes")
-accuracy = train_model(naive_bayes.MultinomialNB(), train_x_count, train_y, test_x_count)
+accuracy = train_model(naive_bayes.MultinomialNB(), train_x_count, train_y, test_x_count, print_bool = True)
 print("Count: ")
 print(accuracy)
+
+#print("Printing features of naive bayes to text file...")
+
 accuracy = train_model(naive_bayes.MultinomialNB(), train_x_count_2, train_y, test_x_count_2)
 print("Count (bigrams): ")
 print(accuracy)

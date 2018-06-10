@@ -95,8 +95,14 @@ class NaiveBayes:
 		print(len(list(self.all_words)))
 
 	def print_word_counts_sorted(self):
-		d = self.word_counts['female']
+		d = self.word_counts['male']
+		temp_list_female = []
 		for w in sorted(d, key=d.get, reverse=False):
-  			print(w, d[w])
+			if w.lower() not in self.stop_words:
+
+  				print(w, d[w])
+  				temp_list_female.append((w, d[w]))
+
+
 
   			
