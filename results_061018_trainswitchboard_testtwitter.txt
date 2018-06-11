@@ -1,0 +1,198 @@
+Naive Bayes
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.65      0.54      0.59      2775
+          m       0.45      0.56      0.50      1877
+
+avg / total       0.57      0.55      0.56      4652
+
+Count (bigrams): 
+             precision    recall  f1-score   support
+
+          f       0.67      0.51      0.58      3049
+          m       0.36      0.52      0.43      1603
+
+avg / total       0.56      0.52      0.53      4652
+
+All Counts: 
+             precision    recall  f1-score   support
+
+          f       0.67      0.53      0.59      2939
+          m       0.41      0.55      0.47      1713
+
+avg / total       0.57      0.54      0.55      4652
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.62      0.54      0.57      2654
+          m       0.47      0.55      0.51      1998
+
+avg / total       0.55      0.54      0.55      4652
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.65      0.51      0.57      2948
+          m       0.38      0.52      0.44      1704
+
+avg / total       0.55      0.51      0.52      4652
+
+All: 
+             precision    recall  f1-score   support
+
+          f       0.63      0.54      0.58      2735
+          m       0.46      0.55      0.50      1917
+
+avg / total       0.56      0.54      0.55      4652
+
+=======================================
+Logistic Regression
+Count:
+             precision    recall  f1-score   support
+
+          f       0.62      0.53      0.57      2731
+          m       0.44      0.54      0.49      1921
+
+avg / total       0.55      0.53      0.53      4652
+
+Count (bigrams):
+             precision    recall  f1-score   support
+
+          f       0.59      0.51      0.55      2681
+          m       0.44      0.52      0.48      1971
+
+avg / total       0.53      0.52      0.52      4652
+
+All Counts: 
+             precision    recall  f1-score   support
+
+          f       0.63      0.52      0.57      2822
+          m       0.41      0.53      0.46      1830
+
+avg / total       0.54      0.52      0.53      4652
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.50      0.55      0.53      2114
+          m       0.59      0.54      0.57      2538
+
+avg / total       0.55      0.55      0.55      4652
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.57      0.52      0.54      2553
+          m       0.47      0.52      0.49      2099
+
+avg / total       0.52      0.52      0.52      4652
+
+All: 
+             precision    recall  f1-score   support
+
+          f       0.59      0.53      0.55      2596
+          m       0.47      0.53      0.50      2056
+
+avg / total       0.54      0.53      0.53      4652
+
+=======================================
+SGD
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.65      0.52      0.58      2876
+          m       0.41      0.54      0.46      1776
+
+avg / total       0.56      0.53      0.53      4652
+
+Count (bigrams) :
+             precision    recall  f1-score   support
+
+          f       0.59      0.51      0.54      2697
+          m       0.43      0.51      0.47      1955
+
+avg / total       0.52      0.51      0.51      4652
+
+All Counts: 
+             precision    recall  f1-score   support
+
+          f       0.63      0.51      0.57      2857
+          m       0.40      0.52      0.45      1795
+
+avg / total       0.54      0.52      0.52      4652
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.44      0.57      0.50      1815
+          m       0.66      0.54      0.60      2837
+
+avg / total       0.58      0.55      0.56      4652
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.90      0.51      0.65      4120
+          m       0.13      0.55      0.21       532
+
+avg / total       0.81      0.51      0.60      4652
+
+All: 
+             precision    recall  f1-score   support
+
+          f       0.57      0.52      0.54      2588
+          m       0.46      0.52      0.49      2064
+
+avg / total       0.52      0.52      0.52      4652
+
+=======================================
+SGD - log loss
+Count: 
+             precision    recall  f1-score   support
+
+          f       0.64      0.53      0.58      2812
+          m       0.43      0.54      0.48      1840
+
+avg / total       0.55      0.53      0.54      4652
+
+Count (bigrams) :
+             precision    recall  f1-score   support
+
+          f       0.60      0.51      0.55      2743
+          m       0.42      0.51      0.46      1909
+
+avg / total       0.53      0.51      0.52      4652
+
+All Counts: 
+             precision    recall  f1-score   support
+
+          f       0.65      0.53      0.58      2856
+          m       0.42      0.54      0.47      1796
+
+avg / total       0.56      0.53      0.54      4652
+
+Word TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.45      0.57      0.50      1851
+          m       0.66      0.55      0.60      2801
+
+avg / total       0.58      0.55      0.56      4652
+
+N-Gram TF-IDF: 
+             precision    recall  f1-score   support
+
+          f       0.66      0.51      0.58      2990
+          m       0.37      0.52      0.44      1662
+
+avg / total       0.56      0.52      0.53      4652
+
+All: 
+             precision    recall  f1-score   support
+
+          f       0.59      0.53      0.56      2582
+          m       0.48      0.54      0.51      2070
+
+avg / total       0.54      0.53      0.54      4652
