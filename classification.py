@@ -36,9 +36,9 @@ stop_words = stop_read_file('english.stop')
 # DATA
 
 # Splitting switchboard
-lines, labels = switchboard_processing.get_switchboard_data()
-train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
-print("switchboard")
+# lines, labels = switchboard_processing.get_switchboard_data()
+# train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
+# print("switchboard")
 
 #Splitting movies
 # lines, labels = data_processing.get_movie_data()
@@ -56,10 +56,18 @@ print("switchboard")
 # test_x, test_y = switchboard_processing.get_switchboard_data()
 # lines = train_x + test_x
 
+# movies, tweets
 # train_x, train_y = data_processing.get_movie_data()
 # test_x, test_y = twitter_processing.get_tweets_data()
 # lines = train_x + test_x
 
+# movies, blog
+train_x, train_y = data_processing.get_movie_data()
+test_x, test_y = blog_processing.get_blog_data()
+lines = train_x + test_x
+
+
+# switchboard, tweets
 # train_x, train_y = switchboard_processing.get_switchboard_data()
 # test_x, test_y = twitter_processing.get_tweets_data()
 # lines = train_x + test_x
@@ -80,6 +88,10 @@ print("switchboard")
 # test_x, test_y = twitter_processing.get_tweets_data()
 # lines = train_x + test_x
 
+# train switch, test blog
+# train_x, train_y = switchboard_processing.get_switchboard_data()
+# test_x, test_y = blog_processing.get_blog_data()
+# lines = train_x + test_x
 
 #Splitting tweets
 # lines, labels = twitter_processing.get_tweets_data()
@@ -94,10 +106,6 @@ print("switchboard")
 # lines, labels = mix_datasets_processing.collect_all_datasets()
 # train_x, test_x, train_y, test_y = model_selection.train_test_split(lines, labels)
 
-#train on blogs, test on movies
-# train_x, train_y = blog_processing.get_blog_data()
-# test_x, test_y = data_processing.get_movie_data()
-# lines = train_x + test_x
 
 
 # FEATURES
